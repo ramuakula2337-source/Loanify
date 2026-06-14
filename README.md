@@ -83,7 +83,7 @@ Raw Data → EDA → Preprocessing → Feature Engineering → Model Training �
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/ramuakula2337-source/loanify-loan-approval-prediction
+git clone https://github.com/ramuakula2337-source/Loanify
 
 # 2. Install dependencies
 pip install pandas numpy scikit-learn matplotlib seaborn jupyter
