@@ -1,86 +1,62 @@
-#  Loanify — Intelligent Loan Approval Prediction System
 Built an end-to-end supervised ML pipeline using KNN, Logistic Regression and Naive Bayes to predict loan approval. Implemented Binary classification along with EDA, feature engineering &amp; model evaluation (Precision, Recall, F1).
-##  Problem Statement
+# Loanify — Intelligent Loan Approval Prediction
 
-A mid-sized financial company **SecureTrust Bank** offers personal and home loans to customers across urban and rural regions of India. Their existing **manual verification process** is time-consuming, biased, and inconsistent — causing good customers to get rejected and high-risk customers to get approved.
+![Python](https://img.shields.io/badge/Python-3.x-blue) ![Scikit-learn](https://img.shields.io/badge/Scikit--learn-ML-orange) ![Kaggle](https://img.shields.io/badge/Dataset-Kaggle-20BEFF)
 
-This project builds an **intelligent ML system** that automatically analyses applicant details and **predicts whether a loan should be Approved or Rejected** before final human verification.
+## Problem Statement
 
----
-
-## Dataset Description
-
-The dataset contains **loan applicant records** with 19 features covering personal, financial, and credit information.
-
-| Feature | Description |
-|---|---|
-| Applicant_Income | Monthly income of applicant |
-| Coapplicant_Income | Monthly income of co-applicant |
-| Employment_Status | Salaried / Self-Employed / Business |
-| Age | Applicant age |
-| Marital_Status | Married / Single |
-| Dependents | Number of dependents |
-| Credit_Score | Credit bureau score |
-| Existing_Loans | Number of already running loans |
-| DTI_Ratio | Debt-to-Income ratio |
-| Savings | Savings balance |
-| Collateral_Value | Value of collateral provided |
-| Loan_Amount | Loan amount requested |
-| Loan_Term | Loan duration (months) |
-| Loan_Purpose | Home / Education / Personal / Business |
-| Property_Area | Urban / Semi-Urban / Rural |
-| Education_Level | Graduate / Postgraduate / Undergraduate |
-| Gender | Male / Female |
-| Employer_Category | Govt / Private / Self |
-| **Loan_Approved (Target)** | **1 = Approved, 0 = Rejected** |
+**SecureTrust Bank** processes hundreds of loan applications daily. Their existing manual verification process is time-consuming, biased, and inconsistent — causing good customers to get rejected and high-risk customers to get approved. This project builds an **intelligent ML system** that automatically analyses applicant details and predicts whether a loan should be Approved or Rejected before final human verification.
 
 ---
 
-## 🔄 Project Workflow
+## Dataset
+
+- **Source:** Kaggle
+- **Features:** 19 (Applicant Income, Coapplicant Income, Employment Status, Age, Marital Status, Dependents, Credit Score, Existing Loans, DTI Ratio, Savings, Collateral Value, Loan Amount, Loan Term, Loan Purpose, Property Area, Education Level, Gender, Employer Category)
+- **Target:** `Loan_Approved` — 1 = Approved, 0 = Rejected
+
+---
+
+## Project Workflow
 
 ```
 Raw Data → EDA → Preprocessing → Feature Engineering → Model Training → Evaluation → Best Model
 ```
 
-### 1️⃣ Exploratory Data Analysis (EDA)
-- Class balance check (pie chart — Approved vs Rejected)
-- Distribution plots for Applicant Income & Co-applicant Income
-- Box plots to detect outliers across Income, Credit Score, DTI Ratio, Savings
-- Histogram of Credit Score split by Loan Approval status
-- Correlation heatmap across all numerical features
-
-### 2️⃣ Data Preprocessing
-- **Missing Value Imputation** — Mean for numerical columns, Mode for categorical columns
-- **Label Encoding** — Education Level, Loan Approved (target)
-- **One-Hot Encoding** — Employment Status, Marital Status, Loan Purpose, Property Area, Gender, Employer Category
-- **Feature Scaling** — StandardScaler applied before model training
-- **Dropped** — Applicant_ID (not useful for prediction)
-
-### 3️⃣ Feature Engineering
-- Added `DTI_Ratio²` — squared Debt-to-Income ratio
-- Added `Credit_Score²` — squared Credit Score
-- Replaced original columns with engineered versions for better model signal
-
-### 4️⃣ Models Built & Compared
-
-| Model | Description |
-|---|---|
-| Logistic Regression | Baseline linear classifier |
-| K-Nearest Neighbors (KNN) | Distance-based classifier (k=5) |
-| Naive Bayes (GaussianNB) | Probabilistic classifier — **Best Precision** ✅ |
-
-### 5️⃣ Evaluation Metrics
-- Accuracy
-- Precision ← primary metric (avoid approving high-risk customers)
-- Recall
-- F1-Score
-- Confusion Matrix
+### Steps
+1. **EDA** — Class balance check, income distributions, outlier detection (box plots), credit score histogram, correlation heatmap
+2. **Preprocessing** — Mean/Mode imputation, Label Encoding, One-Hot Encoding, StandardScaler, dropped Applicant_ID
+3. **Feature Engineering** — Added `DTI_Ratio²` and `Credit_Score²` to capture non-linear relationships
+4. **Evaluation** — Precision selected as primary metric to minimise false approvals (approving risky applicants is costlier)
 
 ---
-##  Tech Stack
+
+## Models & Results
+
+| Model | Accuracy | Precision | Recall | F1 Score |
+|-------|----------|-----------|--------|----------|
+| Logistic Regression | **88.0%** | 78.5% | 83.6% | **81.0%** |
+| KNN (k=5) | 78.5% | 67.3% | 57.4% | 62.0% |
+| Naive Bayes | 86.0% | **81.1%** | 70.5% | 75.4% |
+
+### Recommendation
+- **Best overall:** Logistic Regression — highest accuracy (88%) and F1 (81%)
+- **Best precision:** Naive Bayes (81.1%) — use when minimising false approvals is the top priority
+
+---
+
+## Key Insights
+
+- **Precision chosen as primary metric** — approving a high-risk customer leads to financial loss; false negatives are less costly than false positives here
+- **KNN underperformed** — financial tabular data does not cluster well geometrically at k=5
+- **Feature engineering helped** — squaring DTI and Credit Score captured non-linear risk thresholds
+
+---
+
+## Tech Stack
 
 | Category | Tools |
-|---|---|
+|----------|-------|
 | Language | Python |
 | Data Handling | Pandas, NumPy |
 | Visualisation | Matplotlib, Seaborn |
@@ -91,27 +67,27 @@ Raw Data → EDA → Preprocessing → Feature Engineering → Model Training �
 | Imputation | SimpleImputer |
 | Environment | Jupyter Notebook |
 
---
-## 📁 Files
+---
+
+## Files
 
 | File | Description |
 |------|-------------|
 | `Loanify.ipynb` | Main notebook — EDA, preprocessing, feature engineering, model training |
-| `loan_approval_data.csv` | Dataset with loan applicant records |
+| `loan_approval_data.csv` | Loan applicant records (Kaggle) |
 | `README.md` | Project documentation |
 
-##  Model Performance
+---
 
-| Model | Accuracy | Precision | Recall | F1 Score |
-|---------|---------|---------|---------|---------|
-| Logistic Regression | 88.0% | 78.46% | 83.61% | 80.95% |
-| KNN | 78.5% | 67.31% | 57.38% | 61.95% |
-| Naive Bayes | 86.0% | 81.13% | 70.49% | 75.44% |
+## How to Run
 
-##  Result
+```bash
+# 1. Clone the repository
+git clone https://github.com/ramuakula2337-source/loanify-loan-approval-prediction
 
-- Logistic Regression achieved the best overall performance with 88% Accuracy and 80.95% F1 Score.
-- Naive Bayes achieved the highest Precision (81.13%), making it suitable when minimizing false loan approvals is the primary objective.
+# 2. Install dependencies
+pip install pandas numpy scikit-learn matplotlib seaborn jupyter
 
-
- 
+# 3. Open the notebook
+jupyter notebook Loanify.ipynb
+```
